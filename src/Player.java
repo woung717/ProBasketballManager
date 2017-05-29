@@ -22,8 +22,8 @@ public class Player extends Unit {
         this.skill = skill;
     }
 
-    public int getTotalSkill(int index) {
-        // this.players의 index번째 선수의 능력치(condition.healthiness, condition.psychological, skill)를 합하여 반환
+    public int getTotalSkill() {
+        // 선수의 능력치(condition.healthiness, condition.psychological, skill)를 합하여 반환
 
         return index; // 반환되는 변수로 바꿀것
     }
