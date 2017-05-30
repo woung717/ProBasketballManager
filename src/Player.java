@@ -1,4 +1,4 @@
-import java.sql.Connection;
+﻿import java.sql.Connection;
 
 /**
  * Created by Shin on 2017-05-26.
@@ -25,14 +25,19 @@ public class Player extends Unit {
     public int getTotalSkill() {
         // 선수의 능력치(condition.healthiness, condition.psychological, skill)를 합하여 반환
 
-        return index; // 반환되는 변수로 바꿀것
+        return (this.getCondition().getHealthiness() + this.getCondition().getPsychological() + this.skill);
     }
 
     public int shoot() {
-        int point = 0; // 2점 혹은 3점 (랜덤) Math.random()
+        boolean temp = true;
+        int point = (int)(Math.random() * 2 + 2); // 2점 혹은 3점 (랜덤) Math.random()
         // getTotalSkill 값을 0~1.0사이의 값으로 스케일링 하여(x 0.01) + 0.5 를 더하고 (point / 2 x 0.1) 을 더해서
         // TrueFalse 로 득점 유무 - 득점시 point 못하면 point = 0
-        return point; // 반환되는 변수로 바꿀것
+        float prob = (float)(this.getTotalSkill() * 0.01) + 0.5 + (point / 2 * 0.1);
+        if(ProbabilityGenerator.TrueFalse(temp,prob))
+          point = 0;
+
+        return point; 
     }
 
     public void setCondition(Condition condition) {
