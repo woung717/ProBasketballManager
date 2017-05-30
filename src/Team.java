@@ -25,7 +25,6 @@ public class Team {
     private int nGame;
 
     public Team(String name, String city, String league) {
-	//constructor
         this.name = name;
         this.city = city;
         this.league = league;
