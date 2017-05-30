@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+﻿import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +25,7 @@ public class Team {
     private int nGame;
 
     public Team(String name, String city, String league) {
+	//constructor
         this.name = name;
         this.city = city;
         this.league = league;
