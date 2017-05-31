@@ -8,30 +8,40 @@ import java.util.concurrent.TimeUnit;
 public class Game implements Loggable {
     MessageLogger logger;
 
+    private boolean verbose;
+
     private String type;
     private Team home;
     private Team away;
     private Result result;
 
     public Game(String type, Team home, Team way) {
+        this.verbose = true;
         this.type = type;
         this.result = new Result(((int)(Math.random() * 10) % 7) * 1000000);
     }
 
     public void proceedGame() {
         this.countGame();
+        this.playPhase();
+        this.endGame();
+    }
+
+    public void playPhase() {
         // 각각 40번씩 던지기
         try {
             for(int i = 0; i < 8; i++) {
                 for(int j = 0; j < this.home.getPlayers().size() && j < this.away.getPlayers().size(); j++) {
-                    result.setHomeScore(result.getHomeScore() + this.home.getPlayers().get(j).shoot());
+                    result.setHomeScore(result.getHomeScore() + this.home.getPlayers().get(j).shoot(this.verbose));
                     Thread.sleep(10);
-                    result.setAwayScore(result.getAwayScore() + this.away.getPlayers().get(j).shoot());
+                    result.setAwayScore(result.getAwayScore() + this.away.getPlayers().get(j).shoot(this.verbose));
                     Thread.sleep(10);
                 }
             }
         } catch(Exception e) { ; }
+    }
 
+    public void endGame() {
         Team winner = this.getWinner();
 
         this.sendMessage("The Game is end.");

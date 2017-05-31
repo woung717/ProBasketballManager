@@ -9,14 +9,17 @@ public class ProbabilityGenerator {
             return null;
     }
 
-    public static int[] chooseMultipleChoice(int n, int m, float prob, int[] exclude) {
+    public static int[] chooseMultipleChoice(int n, int m, double prob, int[] exclude) {
         int[] ret = new int[n];
 
-        for(int i = 0; i < n && m != 0; i++) {
-            if(Math.random() < prob && exclude[i] != 1) {
-                ret[i] = 1; m--;
-            } else {
-                ret[i] = 0;
+        while(m > 0) {
+            for (int i = 0; i < n && m != 0; i++) {
+                if (Math.random() < prob && exclude[i] != 1) {
+                    ret[i] = 1;
+                    m--;
+                } else {
+                    ret[i] = 0;
+                }
             }
         }
 
