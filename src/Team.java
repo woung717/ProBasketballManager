@@ -1,9 +1,6 @@
-﻿import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Shin on 2017-05-26.
- */
 public class Team {
     private final int MAX_STAFF = 3;
 
@@ -41,20 +38,20 @@ public class Team {
 
     public boolean hasAllPosition() {
         // this.players 들의 선수들이 "Center", "Forward", "Guard"를 다 포함하고 있는가
-         List<String> position = new ArrayList<>();
-     	 position.add(new String("Center"));
-     	 position.add(new String("Forward"));
-     	 position.add(new String("Guard"));
+        List<String> position = new ArrayList<>();
+        position.add(new String("Center"));
+        position.add(new String("Forward"));
+        position.add(new String("Guard"));
 
-    	 for(int i = 0; i < this.players.size(); i++){
-        	position.remove(this.players.get(i).getPosition());
+        for(int i = 0; i < this.players.size(); i++){
+            position.remove(this.players.get(i).getPosition());
 
-          	if(position.isEmpty()){
-         	   return true;
-          	}
-      	}
+            if(position.isEmpty()){
+                return true;
+            }
+        }
 
-      	return false; 
+        return false;
     }
 
     public boolean changePlayer(int in, int out) {
@@ -136,6 +133,9 @@ public class Team {
         }
     }
 
+    public void payout(double payment) {
+        this.capital -= payment;
+    }
 
     public void setDirector(Director director) {
         this.director = director;
@@ -163,6 +163,14 @@ public class Team {
 
     public Director getDirector() {
         return director;
+    }
+
+    public List<Staff> getStaffPool() {
+        return staffPool;
+    }
+
+    public List<Player> getPlayersPool() {
+        return playersPool;
     }
 
     public List<Staff> getStaffs() {

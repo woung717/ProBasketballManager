@@ -63,6 +63,7 @@ public class Game implements Loggable {
     }
 
     public void giveReward(Team winner) {
+        winner.setVictory(winner.getVictory() + 1);
         winner.setCapital(winner.getCapital() + this.result.getReward());
     }
 

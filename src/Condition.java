@@ -6,6 +6,12 @@ public class Condition {
     private int healthiness;    // int : 1~10
     private int psychological;  // int : 1~10
 
+    public Condition() {
+        this.available = true;
+        this.healthiness = RandomGenerator.getRangedRandomInt(7, 10);
+        this.psychological = RandomGenerator.getRangedRandomInt(7, 10);
+    }
+
     public boolean isAvailable() {
         return available;
     }

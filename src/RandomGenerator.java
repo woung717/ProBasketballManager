@@ -1,7 +1,7 @@
 /**
  * Created by Shin on 2017-05-29.
  */
-public class ProbabilityGenerator {
+public class RandomGenerator {
     public static Boolean TrueFalse(double prob) {
         if(prob >= 0 && prob <= 1.0)
             return Math.random() < prob;
@@ -24,5 +24,9 @@ public class ProbabilityGenerator {
         }
 
         return ret;
+    }
+
+    public static int getRangedRandomInt(int min, int max) {
+        return (int)(Math.random() * (max + 1 - min)) + min;
     }
 }

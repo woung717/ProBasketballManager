@@ -1,9 +1,3 @@
-﻿import java.sql.Connection;
-
-/**
- * Created by Shin on 2017-05-26.
- */
-
 public class Player extends Unit implements Loggable {
     private MessageLogger logger;
 
@@ -31,11 +25,11 @@ public class Player extends Unit implements Loggable {
     }
 
     public int shoot(boolean verbose) {
-        int point = (int)(Math.random() * 2 + 2); // 2점 혹은 3점 (랜덤) Math.random()
+        int point = (int)RandomGenerator.getRangedRandomInt(2, 3); // 2점 혹은 3점 (랜덤) Math.random()
         // getTotalSkill 값을 0~1.0사이의 값으로 스케일링 하여(x 0.01) + 0.5 를 더하고 (point / 2 x 0.1) 을 더해서
         // TrueFalse 로 득점 유무 - 득점시 point 못하면 point = 0
 
-        if(!ProbabilityGenerator.TrueFalse((this.getTotalSkill() * 0.01) + 0.5 + (1 / point * 0.01))) {
+        if(!RandomGenerator.TrueFalse((this.getTotalSkill() * 0.01) + 0.5 + (1 / point * 0.01))) {
             point = 0;
         } else {
             if(verbose) this.sendMessage(this.getName() + " got " + String.valueOf(point) + "point shot.");
@@ -44,7 +38,6 @@ public class Player extends Unit implements Loggable {
         return point;
     }
 
-    @Override
     public void setLogger(Object o) {
         if(o instanceof MessageLogger) {
             this.logger = (MessageLogger) o;

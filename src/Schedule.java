@@ -37,54 +37,102 @@ public class Schedule implements Loggable {
     }
 
     public boolean proceedDay() {
-        if(this.dayCounter >= this.gamePlan.length) {
+        if(this.isGameOver()) return false; // 정해진 날 이상이 되면 종료
+
+        // 해당 날짜에 게임이 예정되어 있다면 게임 진행
+        if(!this.gamePlan[this.dayCounter].equals("No")) this.doGame();
+
+        // 이벤트 발생 (없을 수도 있음)
+        this.eventOccur();
+
+        // + 하루
+        this.dayGoes();
+
+        // 1일이면 월급 지급
+        this.payday();
+
+        return true;
+    }
+
+    public boolean isGameOver() {
+        if(this.dayCounter >= this.gamePlan.length || this.teams[myTeam].getCapital() < 0) {
             this.sendMessage("Game over.");
 
+            return true;
+        } else {
             return false;
         }
-
-        if(this.gamePlan[this.dayCounter].equals("No") == false) this.doGame();
-
-        int[] chosen = ProbabilityGenerator.chooseMultipleChoice(this.events.length,
-                        (int)(Math.random() * 4), 0.2, new int[this.events.length]);
-        
-
-
-
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(this.currentDay);
-        c.add(Calendar.DATE, 1);
-        this.currentDay = c.getTime();
-
-        c.setTime(this.currentDay);
-        if(c.get(Calendar.DAY_OF_MONTH) == 1) {
-            this.sendMessage("Today is payday all of staff and players are paid.");
-
-            // pay off for every players, staffs, director salary
-        }
-
-        this.dayCounter++;
     }
 
     public void doGame() {
         int[] excludes = new int[this.teams.length];
         excludes[this.myTeam] = 1;
 
-        int chosen = ProbabilityGenerator.chooseMultipleChoice(this.teams.length, 1, 0.2, excludes)[0];
-        Team awayTeam = this.teams[chosen];
+        int chosen = RandomGenerator.getRangedRandomInt(0, this.teams.length - 1);
+        Team awayTeam = this.teams[chosen == this.myTeam ? (chosen + 1) % this.teams.length : chosen];
 
         Game game = new Game(this.gamePlan[this.dayCounter], this.teams[this.myTeam], awayTeam);
 
-        this.sendMessage("Today have a game with team " + awayTeam.getName() + " (" + this.gamePlan[this.dayCounter] + " Game)");
+        this.sendMessage("Today, have a game with team " + awayTeam.getName() + " (" + this.gamePlan[this.dayCounter] + " Game)");
 
         game.proceedGame();
+    }
+
+    public void eventOccur() {
+        int[] chosen = RandomGenerator.chooseMultipleChoice(this.events.length,
+                (int)RandomGenerator.getRangedRandomInt(0, 3), 0.2, new int[this.events.length]);
+
+        for(int i : chosen) {
+            Event event = this.events[i];
+            Team myTeam = this.teams[this.myTeam];
+
+            if(event.getEffectOnPlayer() == null) { //team event
+                this.sendMessage("Event occured : " + event.getContent());
+                event.affect(myTeam, null);
+            } else {    // player event
+                Player player = myTeam.getPlayers().get(RandomGenerator.getRangedRandomInt(0, myTeam.getPlayers().size() - 1));
+
+                this.sendMessage("Event occured : " + player.getName() + event.getContent());
+                this.sendMessage(player.getName() + " : Healthiness " + event.getEffectOnPlayer().getEffectOnHealthiness() + "/" +
+                        "Psychological " + event.getEffectOnPlayer().getEffectOnPsychological());
+                event.affect(myTeam, player);
+            }
+        }
+    }
+
+    public void dayGoes() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(this.currentDay);
+        c.add(Calendar.DATE, 1);
+        this.currentDay = c.getTime();
+
+        this.dayCounter++;
+    }
+
+    public void payday() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(this.currentDay);
+
+        if(c.get(Calendar.DAY_OF_MONTH) == 1) {
+            this.sendMessage("Today is payday. All of staffs and players are paid.");
+
+            Team myTeam = this.teams[this.myTeam];
+
+            myTeam.payout(myTeam.getDirector().getSalary());
+            for(Unit unit : myTeam.getPlayers()) {
+                myTeam.payout(unit.getSalary());
+            }
+            for(Unit unit : myTeam.getStaffs()) {
+                myTeam.payout(unit.getSalary());
+            }
+        }
     }
 
     public String getStringDatefromToday(int offset) {
         Calendar c = Calendar.getInstance();
         c.setTime(this.currentDay);
         c.add(Calendar.DATE, offset);
+
         Date t = c.getTime();
         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd ");
 

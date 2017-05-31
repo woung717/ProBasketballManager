@@ -14,10 +14,10 @@ public class Event implements Loggable {
         this.effectOnPlayer = effectOnPlayer;
     }
 
-    public void affectOnWholeTeam(Team team, Player player) {
+    public void affect(Team team, Player player) {
         affectBenefit(team);
 
-        if(this.effectOnPlayer != null) {
+        if(player != null && this.effectOnPlayer != null) {
             this.effectOnPlayer.affectHealthiness(player.getCondition());
             this.effectOnPlayer.affectPsychological(player.getCondition());
             this.effectOnPlayer.affectPlayerAvailability(player.getCondition());
