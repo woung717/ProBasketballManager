@@ -20,7 +20,7 @@ public class Game {
     }
 
     public void giveReward(Team winner) {
-        // 우승팀에게 reward 주기
+        winner.setCapital(winner.getCapital() + this.result.getReward());
     }
 
     public void countGame() {
