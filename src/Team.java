@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+﻿import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,7 +42,18 @@ public class Team {
 
     public boolean hasAllPosition() {
         // this.players 들의 선수들이 "Center", "Forward", "Guard"를 다 포함하고 있는가
-        return true; // 반환값으로 변경
+         List<String> position = new ArrayList<>();
+     	 position.add(new String("Center"));
+     	 position.add(new String("Forward"));
+     	 position.add(new String("Guard"));
+
+    	 for(int i = 0; i < this.players.size(); i++){
+        	position.remove(this.players.get(i).getPosition());
+          	if(position.isEmpty()){
+         	   return true;
+          	}
+      	}
+      	return false; 
     }
 
     public boolean addStaff(int index) {
