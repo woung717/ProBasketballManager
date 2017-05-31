@@ -85,7 +85,7 @@ public class Team {
         // 빼기 updateStaffEffect(Staff staff, int sign) // sign == -1
         // staffpool에 추가
 
-        if(this.staffs.size() >= 0){
+        if(this.staffs.size() > 0){
             Staff s = this.staffs.get(index);
 
             this.staffs.remove(s);
