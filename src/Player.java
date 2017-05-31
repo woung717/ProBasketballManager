@@ -4,7 +4,9 @@
  * Created by Shin on 2017-05-26.
  */
 
-public class Player extends Unit {
+public class Player extends Unit implements Loggable {
+    private MessageLogger logger;
+
     private int age;
     private String nationality;
     private String position;
@@ -25,7 +27,6 @@ public class Player extends Unit {
 
     public int getTotalSkill() {
         // 선수의 능력치(condition.healthiness, condition.psychological, skill)를 합하여 반환
-
         return (this.getCondition().getHealthiness() + this.getCondition().getPsychological() + this.skill);
     }
 
@@ -34,10 +35,24 @@ public class Player extends Unit {
         // getTotalSkill 값을 0~1.0사이의 값으로 스케일링 하여(x 0.01) + 0.5 를 더하고 (point / 2 x 0.1) 을 더해서
         // TrueFalse 로 득점 유무 - 득점시 point 못하면 point = 0
 
-        if(!ProbabilityGenerator.TrueFalse((this.getTotalSkill() * 0.01) + 0.5 + (1 / point * 0.01)))
+        if(!ProbabilityGenerator.TrueFalse((this.getTotalSkill() * 0.01) + 0.5 + (1 / point * 0.01))) {
             point = 0;
+        } else {
+            this.sendMessage(this.getName() + " got " + String.valueOf(point) + "point shot.");
+        }
 
-        return point; 
+        return point;
+    }
+
+    @Override
+    public void setLogger(Object o) {
+        if(o instanceof MessageLogger) {
+            this.logger = (MessageLogger) o;
+        }
+    }
+    @Override
+    public void sendMessage(String msg) {
+        this.logger.addMessage(msg);
     }
 
     public void setCondition(Condition condition) {

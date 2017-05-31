@@ -1,12 +1,11 @@
 ﻿import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Shin on 2017-05-26.
  */
 public class Team {
-    private final int NSTAFF = 3;
+    private final int MAX_STAFF = 3;
 
     private String name;
     private String city;
@@ -58,19 +57,40 @@ public class Team {
       	return false; 
     }
 
+    public boolean changePlayer(int in, int out) {
+        // 선수를 바꿨을때 hasAllPosition 이 성립하는가?
+        // this.playerPool의 in 번째 선수를 this.players의 out번째 선수와 교체
+
+        Player inPlayer = this.playersPool.get(in);
+        Player outPlayer = this.players.get(out);
+
+        this.players.remove(outPlayer);
+        this.players.add(inPlayer);
+
+        if(!this.hasAllPosition()) {
+            // rollback
+            this.players.remove(inPlayer);
+            this.players.add(outPlayer);
+
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean addStaff(int index) {
         // this.staffs의 크기가  NSTAFF보다 작을때(<) staffPool의 index번째 staff를 this.staffs에 추가
         // 모든 선수에 대해서(this.players, this.playerPool) 해당 스태프의 능력치(effectOnPlayer)를
         // 더하기 updateStaffEffect(Staff staff, int sign) // sign == 1
         // staffpool풀에서 삭제
 
-        if(staffs.size() < NSTAFF){
-            Staff s = staffPool.get(index);
+        if(staffs.size() < MAX_STAFF){
+            Staff staff = staffPool.get(index);
 
-            this.staffPool.remove(s);
-            this.staffs.add(s);
+            this.staffPool.remove(staff);
+            this.staffs.add(staff);
 
-            this.updateStaffEffect(s, 1); //staff이 아닌 staffPool에 있는.
+            this.updateStaffEffect(staff, 1); //staff이 아닌 staffPool에 있는.
 
             return true;// 추가했으면 return true 못하면 false
         }
@@ -86,12 +106,12 @@ public class Team {
         // staffpool에 추가
 
         if(this.staffs.size() > 0){
-            Staff s = this.staffs.get(index);
+            Staff staff = this.staffs.get(index);
 
-            this.staffs.remove(s);
-            this.staffPool.add(s);
+            this.staffs.remove(staff);
+            this.staffPool.add(staff);
 
-            this.updateStaffEffect(s, -1);
+            this.updateStaffEffect(staff, -1);
 
             return true;// 제거했으면 return true 못하면 false
         }
@@ -116,26 +136,6 @@ public class Team {
         }
     }
 
-    public boolean changePlayer(int in, int out) {
-        // 선수를 바꿨을때 hasAllPosition 이 성립하는가?
-        // this.playerPool의 in 번째 선수를 this.players의 out번째 선수와 교체
-
-        Player inPlayer = this.playersPool.get(in);
-        Player outPlayer = this.players.get(out);
-
-        this.players.remove(outPlayer);
-        this.players.add(inPlayer);
-
-        if(!this.hasAllPosition()) {
-            // rollback
-            this.players.remove(inPlayer);
-            this.players.add(outPlayer);
-
-            return false;
-        }
-
-        return true;
-    }
 
     public void setDirector(Director director) {
         this.director = director;

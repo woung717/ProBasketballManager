@@ -30,8 +30,4 @@ public class Result {
     public double getReward() {
         return reward;
     }
-
-    public void setReward(double reward) {
-        this.reward = reward;
-    }
 }

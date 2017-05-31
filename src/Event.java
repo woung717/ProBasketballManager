@@ -1,7 +1,9 @@
 /**
  * Created by Shin on 2017-05-26.
  */
-public class Event {
+public class Event implements Loggable {
+    MessageLogger logger;
+
     private String content;
     private double financialBenefit;
     private EffectOnPlayer effectOnPlayer;
@@ -20,6 +22,17 @@ public class Event {
             this.effectOnPlayer.affectPsychological(player.getCondition());
             this.effectOnPlayer.affectPlayerAvailability(player.getCondition());
         }
+    }
+
+    @Override
+    public void setLogger(Object o) {
+        if(o instanceof MessageLogger) {
+            this.logger = (MessageLogger) o;
+        }
+    }
+    @Override
+    public void sendMessage(String msg) {
+        this.logger.addMessage(msg);
     }
 
     private void affectBenefit(Team team) {
