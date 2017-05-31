@@ -51,7 +51,15 @@ public class Team {
         // 더하기 updateStaffEffect(Staff staff, int sign) // sign == 1
         // staffpool풀에서 삭제
 
-        return true;// 추가했으면 return true 못하면 false
+        if(staffs.size()<NSTAFF){
+            staffs.add(staffPool.get(index));
+            updateStaffEffect(staffPool.get(index), 1); //staff이 아닌 staffPool에 있는.
+            staffPool.remove(index);
+
+            return true;// 추가했으면 return true 못하면 false
+        }
+        else
+            return false;
     }
 
     public boolean removeStaff(int index) {
@@ -60,18 +68,89 @@ public class Team {
         // 빼기 updateStaffEffect(Staff staff, int sign) // sign == -1
         // staffpool에 추가
 
-        return true;// 제거했으면 return true 못하면 false
+        if(this.staffs.size()>=0){
+            //this.staffs.remove(this.staffPool.get(index));
+            updateStaffEffect(this.staffs.get(index), -1);
+            this.staffPool.add(this.staffs.get(index));
+            this.staffs.remove(index);
+
+            return true;// 제거했으면 return true 못하면 false
+        }
+        else
+            return false;
     }
 
     public void updateStaffEffect(Staff staff, int sign) {
         // 모든 선수에 대해서(this.players, this.playerPool) 해당 스태프의 능력치(effectOnPlayer)를
         // 더하기/빼기 staff.effectOnPlayer.affectHealthiness(Condition cond, int sign),
         // staff.effectOnPlayer.affectPsychological(Condition cond, int sign)
+
+
+        //player에 대해
+        if(sign == 1){
+            for(int i=0; i< this.players.size(); i++){
+                this.players.get(i).getCondition().setHealthiness(
+                        this.players.get(i).getCondition().getHealthiness()+
+                                staff.effectOnPlayer.getEffectOnHealthiness());
+
+                this.players.get(i).getCondition().setPsychological(
+                        this.players.get(i).getCondition().getPsychological()+
+                                staff.effectOnPlayer.getEffectOnPsychological());
+            }
+
+            //playersPool에 대해
+            for(int i=0; i< this.playersPool.size(); i++){
+                //이미 다른 스태프의 능력치는 더해졌다는 가정하에
+                this.playersPool.get(i).getCondition().setHealthiness(
+                        this.playersPool.get(i).getCondition().getHealthiness()+
+                                staff.effectOnPlayer.getEffectOnHealthiness());
+
+                this.playersPool.get(i).getCondition().setPsychological(
+                        this.playersPool.get(i).getCondition().getPsychological()+
+                                staff.effectOnPlayer.getEffectOnPsychological());
+            }
+        }
+        else if(sign== -1){
+            for(int i=0; i< this.players.size(); i++){
+                //이미 다른 스태프의 능력치는 더해졌다는 가정하에
+                this.players.get(i).getCondition().setHealthiness(
+                        this.players.get(i).getCondition().getHealthiness()-
+                                staff.effectOnPlayer.getEffectOnHealthiness());
+
+                this.players.get(i).getCondition().setPsychological(
+                        this.players.get(i).getCondition().getPsychological()-
+                                staff.effectOnPlayer.getEffectOnPsychological());
+            }
+
+            //playersPool에 대해
+            for(int i=0; i< this.playersPool.size(); i++){
+                //이미 다른 스태프의 능력치는 더해졌다는 가정하에
+                this.playersPool.get(i).getCondition().setHealthiness(
+                        this.playersPool.get(i).getCondition().getHealthiness()-
+                                staff.effectOnPlayer.getEffectOnHealthiness());
+
+                this.playersPool.get(i).getCondition().setPsychological(
+                        this.playersPool.get(i).getCondition().getPsychological()-
+                                staff.effectOnPlayer.getEffectOnPsychological());
+            }
+        }
+
+        //hasAllPosition 추가해야하나?
     }
 
     public void changePlayer(int in, int out) {
         // 선수를 바꿨을때 hasAllPosition 이 성립하는가?
         // this.playerPool의 in 번째 선수를 this.players의 out번째 선수와 교체
+
+        //선수 in
+        this.players.add(playersPool.get(out));
+        this.playersPool.remove(out);
+
+        //선수 out
+        this.playersPool.add(players.get(in));
+        this.players.remove(in);
+
+
     }
 
     public void setDirector(Director director) {

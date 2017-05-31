@@ -3,6 +3,7 @@ import java.sql.Connection;
 /**
  * Created by Shin on 2017-05-26.
  */
+
 public class Player extends Unit {
     private int age;
     private String nationality;
