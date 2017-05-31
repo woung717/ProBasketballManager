@@ -49,6 +49,7 @@ public class Team {
 
     	 for(int i = 0; i < this.players.size(); i++){
         	position.remove(this.players.get(i).getPosition());
+
           	if(position.isEmpty()){
          	   return true;
           	}
@@ -66,14 +67,16 @@ public class Team {
         if(staffs.size() < NSTAFF){
             Staff s = staffPool.get(index);
 
-            staffs.add(s);
+            this.staffPool.remove(s);
+            this.staffs.add(s);
+
             this.updateStaffEffect(s, 1); //staff이 아닌 staffPool에 있는.
-            staffPool.remove(s);
 
             return true;// 추가했으면 return true 못하면 false
         }
-        else
+        else {
             return false;
+        }
     }
 
     public boolean removeStaff(int index) {
@@ -82,17 +85,19 @@ public class Team {
         // 빼기 updateStaffEffect(Staff staff, int sign) // sign == -1
         // staffpool에 추가
 
-        if(this.staffs.size()>=0){
+        if(this.staffs.size() >= 0){
             Staff s = this.staffs.get(index);
 
-            this.updateStaffEffect(s, -1);
-            this.staffPool.add(s);
             this.staffs.remove(s);
+            this.staffPool.add(s);
+
+            this.updateStaffEffect(s, -1);
 
             return true;// 제거했으면 return true 못하면 false
         }
-        else
+        else {
             return false;
+        }
     }
 
     public void updateStaffEffect(Staff staff, int sign) {
@@ -109,56 +114,6 @@ public class Team {
             staff.getEffectOnPlayer().affectHealthiness(player.getCondition(), sign);
             staff.getEffectOnPlayer().affectPsychological(player.getCondition(), sign);
         }
-
-//        //player에 대해
-//        if(sign == 1){
-//
-//            for(int i=0; i< this.players.size(); i++){
-//                this.players.get(i).getCondition().setHealthiness(
-//                        this.players.get(i).getCondition().getHealthiness()+
-//                                staff.effectOnPlayer.getEffectOnHealthiness());
-//
-//                this.players.get(i).getCondition().setPsychological(
-//                        this.players.get(i).getCondition().getPsychological()+
-//                                staff.effectOnPlayer.getEffectOnPsychological());
-//            }
-//
-//            //playersPool에 대해
-//            for(int i=0; i< this.playersPool.size(); i++){
-//                //이미 다른 스태프의 능력치는 더해졌다는 가정하에
-//                this.playersPool.get(i).getCondition().setHealthiness(
-//                        this.playersPool.get(i).getCondition().getHealthiness()+
-//                                staff.effectOnPlayer.getEffectOnHealthiness());
-//
-//                this.playersPool.get(i).getCondition().setPsychological(
-//                        this.playersPool.get(i).getCondition().getPsychological()+
-//                                staff.effectOnPlayer.getEffectOnPsychological());
-//            }
-//        }
-//        else if(sign== -1){
-//            for(int i=0; i< this.players.size(); i++){
-//                //이미 다른 스태프의 능력치는 더해졌다는 가정하에
-//                this.players.get(i).getCondition().setHealthiness(
-//                        this.players.get(i).getCondition().getHealthiness()-
-//                                staff.effectOnPlayer.getEffectOnHealthiness());
-//
-//                this.players.get(i).getCondition().setPsychological(
-//                        this.players.get(i).getCondition().getPsychological()-
-//                                staff.effectOnPlayer.getEffectOnPsychological());
-//            }
-//
-//            //playersPool에 대해
-//            for(int i=0; i< this.playersPool.size(); i++){
-//                //이미 다른 스태프의 능력치는 더해졌다는 가정하에
-//                this.playersPool.get(i).getCondition().setHealthiness(
-//                        this.playersPool.get(i).getCondition().getHealthiness()-
-//                                staff.effectOnPlayer.getEffectOnHealthiness());
-//
-//                this.playersPool.get(i).getCondition().setPsychological(
-//                        this.playersPool.get(i).getCondition().getPsychological()-
-//                                staff.effectOnPlayer.getEffectOnPsychological());
-//            }
-//        }
     }
 
     public boolean changePlayer(int in, int out) {
@@ -180,15 +135,6 @@ public class Team {
         }
 
         return true;
-
-//
-//        //선수 in
-//        this.players.add(playersPool.get(out));
-//        this.playersPool.remove(out);
-//
-//        //선수 out
-//        this.playersPool.add(players.get(in));
-//        this.players.remove(in);
     }
 
     public void setDirector(Director director) {
