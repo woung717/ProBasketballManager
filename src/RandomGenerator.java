@@ -1,27 +1,23 @@
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by Shin on 2017-05-29.
  */
 public class RandomGenerator {
     public static Boolean TrueFalse(double prob) {
-        if(prob >= 0 && prob <= 1.0)
-            return Math.random() < prob;
-        else
-            return null;
+        return Math.random() < prob;
     }
 
-    public static int[] chooseMultipleChoice(int n, int m, double prob, int[] exclude) {
-        int[] ret = new int[n];
+    public static int[] chooseMultipleChoice(int n, int m, int[] exclude) {
+        int[] ret = new int[m];
 
-        while(m > 0) {
-            for (int i = 0; i < n && m != 0; i++) {
-                if (Math.random() < prob && exclude[i] != 1) {
-                    ret[i] = 1;
-                    m--;
-                } else {
-                    ret[i] = 0;
-                }
-            }
-        }
+        List<Integer> shuffler = new LinkedList<Integer>();
+
+        for(int i = 0; i < n; i++) if(exclude[i] != 1) shuffler.add(i);
+        Collections.shuffle(shuffler);
+        for(int i = 0; i < m; i++) ret[i] = shuffler.get(i);
 
         return ret;
     }

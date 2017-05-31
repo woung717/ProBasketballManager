@@ -18,10 +18,16 @@ public class Main {
         gameDB = Database.getInstance();
 
         director = directorSetting();
-        teamIndex = chooseTeam() - 1;
+        teamIndex = chooseTeam();
 
         initialize();
 
+        schedule = Schedule.getInstance(teams, teamIndex, gameDB.eventDB, gameDB.scheduleDB);
+        schedule.setLogger(logger);
+
+        do {
+            (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).nextLine();
+        } while(schedule.proceedDay());
 
     }
 
@@ -34,7 +40,7 @@ public class Main {
         int age = scanner.nextInt();
 
         System.out.print("Director's nationality (1. USA / 2. Europe / 3. Asia) : ");
-        int nation = scanner.nextInt() % 4;
+        int nation = scanner.nextInt() % 3;
 
         return new Director(name, ((int)(Math.random() * 10) % 7) * 2000, age, gameDB.nationDB[nation]);
     }
@@ -42,13 +48,13 @@ public class Main {
     public static int chooseTeam() {
         Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
 
-        for(int i = 1; i <= gameDB.teamDB.length; i++) {
-            System.out.print(String.valueOf(i) + ". " + gameDB.teamDB[0] + " - " + gameDB.teamDB[1] + "(" + gameDB.teamDB[2] + ")\n");
+        for(int i = 0; i < gameDB.teamDB.length; i++) {
+            System.out.print(String.valueOf(i + 1) + ". " + gameDB.teamDB[i][0] + " - " + gameDB.teamDB[i][1] + "(" + gameDB.teamDB[i][2] + ")\n");
         }
 
         System.out.print("Select team : ");
 
-        return scanner.nextInt();
+        return scanner.nextInt() - 1;
     }
 
     public static void initialize() {
@@ -80,7 +86,7 @@ public class Main {
             }
 
             teams[i].setTactic(gameDB.tacticDB[RandomGenerator.getRangedRandomInt(0, gameDB.tacticDB.length - 1)]);
-            teams[i].setCapital((Math.random() * 10) % 9 * 100000000);
+            teams[i].setCapital((Math.random() * 10) % 9 * 1000000);
         }
     }
 }

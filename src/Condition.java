@@ -8,8 +8,8 @@ public class Condition {
 
     public Condition() {
         this.available = true;
-        this.healthiness = RandomGenerator.getRangedRandomInt(7, 10);
-        this.psychological = RandomGenerator.getRangedRandomInt(7, 10);
+        this.healthiness = RandomGenerator.getRangedRandomInt(25, 30);
+        this.psychological = RandomGenerator.getRangedRandomInt(25, 30);
     }
 
     public boolean isAvailable() {

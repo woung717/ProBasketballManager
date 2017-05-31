@@ -39,6 +39,7 @@ public class Schedule implements Loggable {
     public boolean proceedDay() {
         if(this.isGameOver()) return false; // 정해진 날 이상이 되면 종료
 
+        this.sendMessage("Date : " + this.getStringDatefromToday(0));
         // 해당 날짜에 게임이 예정되어 있다면 게임 진행
         if(!this.gamePlan[this.dayCounter].equals("No")) this.doGame();
 
@@ -72,6 +73,7 @@ public class Schedule implements Loggable {
         Team awayTeam = this.teams[chosen == this.myTeam ? (chosen + 1) % this.teams.length : chosen];
 
         Game game = new Game(this.gamePlan[this.dayCounter], this.teams[this.myTeam], awayTeam);
+        if(this.logger != null) game.setLogger(this.logger);
 
         this.sendMessage("Today, have a game with team " + awayTeam.getName() + " (" + this.gamePlan[this.dayCounter] + " Game)");
 
@@ -80,11 +82,14 @@ public class Schedule implements Loggable {
 
     public void eventOccur() {
         int[] chosen = RandomGenerator.chooseMultipleChoice(this.events.length,
-                (int)RandomGenerator.getRangedRandomInt(0, 3), 0.2, new int[this.events.length]);
+                (int)RandomGenerator.getRangedRandomInt(0, 3), new int[this.events.length]);
 
+        this.sendMessage("===================Events===================");
         for(int i : chosen) {
             Event event = this.events[i];
             Team myTeam = this.teams[this.myTeam];
+
+            if(this.logger != null) event.setLogger(this.logger);
 
             if(event.getEffectOnPlayer() == null) { //team event
                 this.sendMessage("Event occured : " + event.getContent());
@@ -92,12 +97,13 @@ public class Schedule implements Loggable {
             } else {    // player event
                 Player player = myTeam.getPlayers().get(RandomGenerator.getRangedRandomInt(0, myTeam.getPlayers().size() - 1));
 
-                this.sendMessage("Event occured : " + player.getName() + event.getContent());
-                this.sendMessage(player.getName() + " : Healthiness " + event.getEffectOnPlayer().getEffectOnHealthiness() + "/" +
-                        "Psychological " + event.getEffectOnPlayer().getEffectOnPsychological());
+                this.sendMessage("Event occured : " + player.getName() + event.getContent() +
+                                " (" + player.getName() + " : Healthiness " + event.getEffectOnPlayer().getEffectOnHealthiness() + " / " +
+                                "Psychological " + event.getEffectOnPlayer().getEffectOnPsychological() + ")");
                 event.affect(myTeam, player);
             }
         }
+        this.sendMessage("=============================================");
     }
 
     public void dayGoes() {
@@ -114,7 +120,7 @@ public class Schedule implements Loggable {
         c.setTime(this.currentDay);
 
         if(c.get(Calendar.DAY_OF_MONTH) == 1) {
-            this.sendMessage("Today is payday. All of staffs and players are paid.");
+            this.sendMessage("Today is payday. All of staffs and players are paid." + " Balance : " + String.valueOf(this.teams[myTeam].getCapital()));
 
             Team myTeam = this.teams[this.myTeam];
 

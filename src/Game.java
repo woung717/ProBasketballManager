@@ -15,9 +15,11 @@ public class Game implements Loggable {
     private Team away;
     private Result result;
 
-    public Game(String type, Team home, Team way) {
+    public Game(String type, Team home, Team away) {
         this.verbose = true;
         this.type = type;
+        this.home = home;
+        this.away = away;
         this.result = new Result(((int)(Math.random() * 10) % 7) * 1000000);
     }
 
@@ -33,9 +35,9 @@ public class Game implements Loggable {
             for(int i = 0; i < 8; i++) {
                 for(int j = 0; j < this.home.getPlayers().size() && j < this.away.getPlayers().size(); j++) {
                     result.setHomeScore(result.getHomeScore() + this.home.getPlayers().get(j).shoot(this.verbose));
-                    Thread.sleep(10);
+                    Thread.sleep(50);
                     result.setAwayScore(result.getAwayScore() + this.away.getPlayers().get(j).shoot(this.verbose));
-                    Thread.sleep(10);
+                    Thread.sleep(50);
                 }
             }
         } catch(Exception e) { ; }
@@ -46,16 +48,19 @@ public class Game implements Loggable {
 
         this.sendMessage("The Game is end.");
         this.sendMessage("Score (Home - Away) : " +
-                String.valueOf(this.result.getHomeScore()) + " - " + String.valueOf(this.result.getHomeScore()));
-        this.sendMessage("Winner is " + winner.getName());
+                String.valueOf(this.result.getHomeScore()) + " - " + String.valueOf(this.result.getAwayScore()));
+
 
         if(winner != null) {
+            this.sendMessage("Winner is " + winner.getName());
             this.giveReward(winner);
+        } else {
+            this.sendMessage("The game is draw");
         }
     }
 
     public Team getWinner() {
-        if(this.result.getHomeScore() == this.result.getHomeScore()) {
+        if(this.result.getHomeScore() == this.result.getAwayScore()) {
             return null;
         } else {
             return (this.result.getHomeScore() > this.result.getAwayScore()) ? this.home : this.away;

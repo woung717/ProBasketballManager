@@ -36,6 +36,10 @@ public class Team {
         this.nGame = 0;
     }
 
+    public boolean isAllPlayerAvailable() {
+        
+    }
+
     public boolean hasAllPosition() {
         // this.players 들의 선수들이 "Center", "Forward", "Guard"를 다 포함하고 있는가
         List<String> position = new ArrayList<>();

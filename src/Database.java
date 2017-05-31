@@ -28,16 +28,15 @@ public class Database {
                         new Tactic("Aggressive", 7, 2),
                         new Tactic("Defensive", 3, 6)};
 
-    Event[] playerEventDB = {new Event(" got banned because of using illegal drug. Fine : $5000", -5000.0, new EffectOnPlayer(0, -50, false)),
-                                new Event(" want to leave the team.", 0, new EffectOnPlayer(0, -80, true)),
-                                new Event(" is arrested because of drunken drive.", 0, new EffectOnPlayer(0, -30, true)),
-                                new Event(" fought with rival team member.", 0, new EffectOnPlayer(-20, -30, true)),
-                                new Event(" got MVP of this season. Team reward : $500,000", 500000, new EffectOnPlayer(0, 30, true))
+    Event[] eventDB = {new Event(" got banned because of using illegal drug. Fine : $5000", -5000.0, new EffectOnPlayer(0, -1, false)),
+                                new Event(" want to leave the team.", 0, new EffectOnPlayer(0, -2, true)),
+                                new Event(" is arrested because of drunken drive.", 0, new EffectOnPlayer(0, -2, true)),
+                                new Event(" fought with rival team member.", 0, new EffectOnPlayer(-2, -3, true)),
+                                new Event(" got MVP of this season. Team reward : $500,000", 500000, new EffectOnPlayer(0, 3, true)),
+                                new Event("Someone donation enormous amount of money. Donation : $1,000,000", 1000000, null),
+                                new Event("Tax evasion is revealed by the media. Fine : $100,000", -100000, null),
+                                new Event("Got invest from the billionare. Investment : $10,000,000", 10000000, null)
                                 };
-
-    Event[] teamEventDB = {new Event("Someone donation enormous amount of money.", 10000000, null),
-                            new Event("Tax evasion is revealed by the media. Fine : $10,000,000", -10000000, null),
-                            new Event("Got invest from the billionare.", 1000000000, null)};
 
     Staff[] staffDB = { new Staff("Manuel Coker", 5400, new EffectOnPlayer(3, 0, true)),
                         new Staff("Nelson Fairchild", 5600, new EffectOnPlayer(0, 3, true)),
