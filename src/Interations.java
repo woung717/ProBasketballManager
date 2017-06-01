@@ -27,6 +27,57 @@ public class Interations implements Loggable {
         return (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).nextInt();
     }
 
+    public int[] showPlayerChange() {
+        int[] indexs = new int[2];
+
+        this.sendMessage("================Main Players================");
+        for(int i = 0; i < this.team.getPlayers().size(); i++) {
+            this.sendMessage("* " + this.team.getPlayers().get(i).getName() + "/" + this.team.getPlayers().get(i).getNationality() + "/" +
+                    this.team.getPlayers().get(i).getHeight() + "/" + this.team.getPlayers().get(i).getSkill() + "/" + this.team.getPlayers().get(i).getPosition() +
+                    "/" + this.team.getPlayers().get(i).getSkill());
+        }
+        this.sendMessage("============================================");
+        this.sendMessage("Select player to out : ");
+        indexs[0] = (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).nextInt() - 1;
+
+        this.sendMessage("================Bench Players================");
+        for(int i = 0; i < this.team.getPlayersPool().size(); i++) {
+            this.sendMessage("* " + this.team.getPlayersPool().get(i).getName() + "/" + this.team.getPlayersPool().get(i).getNationality() + "/" +
+                    this.team.getPlayersPool().get(i).getHeight() + "/" + this.team.getPlayersPool().get(i).getSkill() + "/" + this.team.getPlayersPool().get(i).getPosition());
+        }
+        this.sendMessage("============================================");
+        this.sendMessage("Select player to in : ");
+        indexs[1] = (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).nextInt() - 1;
+
+        return indexs;
+    }
+
+    public int[] showStaffChange() {
+        int[] indexs = new int[2];
+
+        this.sendMessage("================Working Staff================");
+        for(int i = 0; i < this.team.getStaffs().size(); i++) {
+            this.sendMessage("* " + this.team.getStaffs().get(i).getName() + "/" + this.team.getStaffs().get(i).getSalary() + "/" +
+                                this.team.getStaffs().get(i).getEffectOnPlayer().getEffectOnHealthiness() + "/" +
+                                this.team.getStaffs().get(i).getEffectOnPlayer().getEffectOnPsychological() );
+        }
+        this.sendMessage("============================================");
+        this.sendMessage("Select Staff to out : ");
+        indexs[0] = (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).nextInt() - 1;
+
+        this.sendMessage("================Staff Pool================");
+        for(int i = 0; i < this.team.getStaffPool().size(); i++) {
+            this.sendMessage("* " + this.team.getStaffPool().get(i).getName() + "/" + this.team.getStaffPool().get(i).getSalary() + "/" +
+                    this.team.getStaffPool().get(i).getEffectOnPlayer().getEffectOnHealthiness() + "/" +
+                    this.team.getStaffPool().get(i).getEffectOnPlayer().getEffectOnPsychological() );
+        }
+        this.sendMessage("============================================");
+        this.sendMessage("Select Staff to in : ");
+        indexs[1] = (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).nextInt() - 1;
+
+        return indexs;
+    }
+
     public int showTactics() {
         int i = 1;
         for(Tactic tactic : this.tactics) {

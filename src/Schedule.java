@@ -52,7 +52,7 @@ public class Schedule implements Loggable {
         // 이벤트 발생 (없을 수도 있음)
         this.eventOccur();
 
-        if(!this.teams[this.myTeam].isAllPlayerAvailable())
+        //if(!this.teams[this.myTeam].isAllPlayerAvailable())
 
         // + 하루
         this.dayGoes();

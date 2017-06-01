@@ -1,20 +1,24 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.util.Scanner;
 
 public class Main {
     static Schedule schedule;
     static Database gameDB;
+    static Interations console;
 
     static Director director;
     static Team[] teams;
+
     static MessageLogger logger;
 
     static int teamIndex;
 
     public static void main(String[] args) {
         logger = new MessageLogger();
+
         gameDB = Database.getInstance();
 
         director = directorSetting();
@@ -22,12 +26,15 @@ public class Main {
 
         initialize();
 
+        console = new Interations(teams[teamIndex], gameDB.tacticDB);
+        console.setLogger(logger);
+
         schedule = Schedule.getInstance(teams, teamIndex, gameDB.eventDB, gameDB.scheduleDB);
         schedule.setLogger(logger);
 
-        do {
-            (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).nextLine();
-        } while(schedule.proceedDay());
+        while(schedule.proceedDay()) {
+            console.printMainMenu();
+        }
 
     }
 
@@ -86,7 +93,7 @@ public class Main {
             }
 
             teams[i].setTactic(gameDB.tacticDB[RandomGenerator.getRangedRandomInt(0, gameDB.tacticDB.length - 1)]);
-            teams[i].setCapital((long)(Math.random() * 10) % 9 * 1000000);
+            teams[i].setCapital(Double.valueOf((Math.random() * 10) % 9 * 1000000).longValue());
         }
     }
 }
