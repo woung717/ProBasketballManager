@@ -5,9 +5,9 @@ public class Result {
     private int homeScore;
     private int awayScore;
 
-    private double reward;
+    private long reward;
 
-    public Result(double reward) {
+    public Result(long reward) {
         this.reward = reward;
     }
 
@@ -27,7 +27,7 @@ public class Result {
         this.awayScore = awayScore;
     }
 
-    public double getReward() {
+    public long getReward() {
         return reward;
     }
 }

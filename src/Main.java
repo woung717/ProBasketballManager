@@ -86,7 +86,7 @@ public class Main {
             }
 
             teams[i].setTactic(gameDB.tacticDB[RandomGenerator.getRangedRandomInt(0, gameDB.tacticDB.length - 1)]);
-            teams[i].setCapital((Math.random() * 10) % 9 * 1000000);
+            teams[i].setCapital((long)(Math.random() * 10) % 9 * 1000000);
         }
     }
 }

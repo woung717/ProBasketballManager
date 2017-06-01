@@ -1,6 +1,12 @@
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by Shin on 2017-05-26.
@@ -46,6 +52,8 @@ public class Schedule implements Loggable {
         // 이벤트 발생 (없을 수도 있음)
         this.eventOccur();
 
+        if(!this.teams[this.myTeam].isAllPlayerAvailable())
+
         // + 하루
         this.dayGoes();
 
@@ -53,6 +61,23 @@ public class Schedule implements Loggable {
         this.payday();
 
         return true;
+    }
+
+    public void askPlayerChange() {
+        List<Player> pool = this.teams[this.myTeam].getPlayersPool();
+
+        for(int i = 0; i < pool.size(); i++) {
+            if(pool.get(i).getCondition().isAvailable()) {
+                this.sendMessage( (i + 1) + ". " + pool.get(i).getPosition() + " / " + pool.get(i).getSkill() + " / " +
+                                        pool.get(i).getSkill());
+            }
+        }
+        /*
+         for(Player player : this.teams[this.myTeam].getPlayersPool()) {
+            player.getName()
+        }
+        this.sendMessage("");
+        */
     }
 
     public boolean isGameOver() {
@@ -76,6 +101,9 @@ public class Schedule implements Loggable {
         if(this.logger != null) game.setLogger(this.logger);
 
         this.sendMessage("Today, have a game with team " + awayTeam.getName() + " (" + this.gamePlan[this.dayCounter] + " Game)");
+        this.sendMessage("Press Enter to start the game");
+
+        (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).next();
 
         game.proceedGame();
     }
@@ -120,7 +148,7 @@ public class Schedule implements Loggable {
         c.setTime(this.currentDay);
 
         if(c.get(Calendar.DAY_OF_MONTH) == 1) {
-            this.sendMessage("Today is payday. All of staffs and players are paid." + " Balance : " + String.valueOf(this.teams[myTeam].getCapital()));
+            this.sendMessage("Today is payday. All of staffs and players are paid." + " Balance : $" + String.valueOf(this.teams[myTeam].getCapital()));
 
             Team myTeam = this.teams[this.myTeam];
 

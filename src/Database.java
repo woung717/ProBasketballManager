@@ -28,7 +28,7 @@ public class Database {
                         new Tactic("Aggressive", 7, 2),
                         new Tactic("Defensive", 3, 6)};
 
-    Event[] eventDB = {new Event(" got banned because of using illegal drug. Fine : $5000", -5000.0, new EffectOnPlayer(0, -1, false)),
+    Event[] eventDB = {new Event(" got banned because of using illegal drug. Fine : $5000", -5000, new EffectOnPlayer(0, -1, false)),
                                 new Event(" want to leave the team.", 0, new EffectOnPlayer(0, -2, true)),
                                 new Event(" is arrested because of drunken drive.", 0, new EffectOnPlayer(0, -2, true)),
                                 new Event(" fought with rival team member.", 0, new EffectOnPlayer(-2, -3, true)),

@@ -5,10 +5,10 @@ public class Event implements Loggable {
     MessageLogger logger;
 
     private String content;
-    private double financialBenefit;
+    private long financialBenefit;
     private EffectOnPlayer effectOnPlayer;
 
-    public Event(String content, double benefit, EffectOnPlayer effectOnPlayer) {
+    public Event(String content, long benefit, EffectOnPlayer effectOnPlayer) {
         this.content = content;
         this.financialBenefit = benefit;
         this.effectOnPlayer = effectOnPlayer;
@@ -51,7 +51,7 @@ public class Event implements Loggable {
         return financialBenefit;
     }
 
-    public void setFinancialBenefit(double financialBenefit) {
+    public void setFinancialBenefit(long financialBenefit) {
         this.financialBenefit = financialBenefit;
     }
 

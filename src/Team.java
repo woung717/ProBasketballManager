@@ -16,7 +16,7 @@ public class Team {
 
     private Tactic tactic;
 
-    private double capital;
+    private long capital;
     private int victory;
     private int nGame;
 
@@ -31,13 +31,17 @@ public class Team {
         this.playersPool = new ArrayList<Player>();
         this.players = new ArrayList<Player>();
 
-        this.capital = 0.0;
+        this.capital = 0;
         this.victory = 0;
         this.nGame = 0;
     }
 
     public boolean isAllPlayerAvailable() {
-        
+        for(Player player : this.players) {
+            if(!player.getCondition().isAvailable()) return false;
+        }
+
+        return true;
     }
 
     public boolean hasAllPosition() {
@@ -137,7 +141,7 @@ public class Team {
         }
     }
 
-    public void payout(double payment) {
+    public void payout(long payment) {
         this.capital -= payment;
     }
 
@@ -145,7 +149,7 @@ public class Team {
         this.director = director;
     }
 
-    public void setCapital(double capital) {
+    public void setCapital(long capital) {
         this.capital = capital;
     }
 
@@ -185,7 +189,7 @@ public class Team {
         return players;
     }
 
-    public double getCapital() {
+    public long getCapital() {
         return capital;
     }
 
