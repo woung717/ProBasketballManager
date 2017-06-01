@@ -72,10 +72,16 @@ public class Team {
         this.players.remove(outPlayer);
         this.players.add(inPlayer);
 
+        this.playersPool.add(outPlayer);
+        this.playersPool.remove(inPlayer);
+
         if(!this.hasAllPosition()) {
             // rollback
             this.players.remove(inPlayer);
             this.players.add(outPlayer);
+
+            this.playersPool.add(inPlayer);
+            this.playersPool.remove(outPlayer);
 
             return false;
         }
@@ -83,46 +89,20 @@ public class Team {
         return true;
     }
 
-    public boolean addStaff(int index) {
-        // this.staffs의 크기가  NSTAFF보다 작을때(<) staffPool의 index번째 staff를 this.staffs에 추가
-        // 모든 선수에 대해서(this.players, this.playerPool) 해당 스태프의 능력치(effectOnPlayer)를
-        // 더하기 updateStaffEffect(Staff staff, int sign) // sign == 1
-        // staffpool풀에서 삭제
+    public boolean changeStaff(int in, int out) {
+        Staff inStaff = this.staffPool.get(in);
+        Staff outStaff = this.staffs.get(out);
 
-        if(staffs.size() < MAX_STAFF){
-            Staff staff = staffPool.get(index);
+        this.staffs.remove(outStaff);
+        this.staffs.add(inStaff);
 
-            this.staffPool.remove(staff);
-            this.staffs.add(staff);
+        this.staffPool.add(outStaff);
+        this.staffPool.remove(inStaff);
 
-            this.updateStaffEffect(staff, 1); //staff이 아닌 staffPool에 있는.
+        this.updateStaffEffect(outStaff, -1);
+        this.updateStaffEffect(inStaff, 1);
 
-            return true;// 추가했으면 return true 못하면 false
-        }
-        else {
-            return false;
-        }
-    }
-
-    public boolean removeStaff(int index) {
-        // 현재 staff수가 0보다 클때 index번째의 스태프를 this.staffs 에서 제거하고
-        // 모든 선수에 대해서(this.players, this.playerPool) 해당 스태프의 능력치(effectOnPlayer)를
-        // 빼기 updateStaffEffect(Staff staff, int sign) // sign == -1
-        // staffpool에 추가
-
-        if(this.staffs.size() > 0){
-            Staff staff = this.staffs.get(index);
-
-            this.staffs.remove(staff);
-            this.staffPool.add(staff);
-
-            this.updateStaffEffect(staff, -1);
-
-            return true;// 제거했으면 return true 못하면 false
-        }
-        else {
-            return false;
-        }
+        return true;
     }
 
     public void updateStaffEffect(Staff staff, int sign) {

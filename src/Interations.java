@@ -22,8 +22,10 @@ public class Interations implements Loggable {
         this.sendMessage("3. Player change");
         this.sendMessage("4. Staff change");
         this.sendMessage("5. Tatic change");
+        this.sendMessage("6. Go Next Day");
         this.sendMessage("======================================");
         this.sendMessage("Select Menu : ");
+
         return (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).nextInt();
     }
 
@@ -42,7 +44,7 @@ public class Interations implements Loggable {
 
         this.sendMessage("================Bench Players================");
         for(int i = 0; i < this.team.getPlayersPool().size(); i++) {
-            this.sendMessage("* " + this.team.getPlayersPool().get(i).getName() + "/" + this.team.getPlayersPool().get(i).getNationality() + "/" +
+            this.sendMessage(this.team.getPlayersPool().get(i).getName() + "/" + this.team.getPlayersPool().get(i).getNationality() + "/" +
                     this.team.getPlayersPool().get(i).getHeight() + "/" + this.team.getPlayersPool().get(i).getSkill() + "/" + this.team.getPlayersPool().get(i).getPosition());
         }
         this.sendMessage("============================================");
@@ -67,7 +69,7 @@ public class Interations implements Loggable {
 
         this.sendMessage("================Staff Pool================");
         for(int i = 0; i < this.team.getStaffPool().size(); i++) {
-            this.sendMessage("* " + this.team.getStaffPool().get(i).getName() + "/" + this.team.getStaffPool().get(i).getSalary() + "/" +
+            this.sendMessage(this.team.getStaffPool().get(i).getName() + "/" + this.team.getStaffPool().get(i).getSalary() + "/" +
                     this.team.getStaffPool().get(i).getEffectOnPlayer().getEffectOnHealthiness() + "/" +
                     this.team.getStaffPool().get(i).getEffectOnPlayer().getEffectOnPsychological() );
         }

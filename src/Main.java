@@ -33,7 +33,48 @@ public class Main {
         schedule.setLogger(logger);
 
         while(schedule.proceedDay()) {
-            console.printMainMenu();
+            boolean loop = true;
+
+            while(loop) {
+                int select = console.printMainMenu();
+
+                switch (select) {
+                    case 1:
+                        console.showTeamInformation();
+
+                        break;
+                    case 2:
+                        console.showDirectorInformation();
+
+                        break;
+                    case 3: {
+                        int[] changes = console.showPlayerChange();
+                        if(changes[0] < 5 && changes[1] < 7) teams[teamIndex].changePlayer(changes[1], changes[0]);
+
+                        break;
+                    }
+                    case 4: {
+                        int[] changes = console.showStaffChange();
+
+                        if(changes[0] < 3 && changes[1] < 2) teams[teamIndex].changeStaff(changes[1], changes[0]);
+
+                        break;
+                    }
+                    case 5: {
+                        int tactic = console.showTactics();
+                        if(tactic < 3) teams[teamIndex].setTactic(gameDB.tacticDB[tactic]);
+
+                        break;
+                    }
+                    case 6: {
+                        loop = false;
+
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
         }
 
     }
@@ -49,7 +90,7 @@ public class Main {
         System.out.print("Director's nationality (1. USA / 2. Europe / 3. Asia) : ");
         int nation = scanner.nextInt() % 3;
 
-        return new Director(name, ((int)(Math.random() * 10) % 7) * 2000, age, gameDB.nationDB[nation]);
+        return new Director(name, Double.valueOf(((Math.random() * 10) % 7) * 2000).longValue(), age, gameDB.nationDB[nation]);
     }
 
     public static int chooseTeam() {
@@ -87,6 +128,7 @@ public class Main {
             for(int j = 0; j < perTeamStaff; j++) {
                 if(j < 3) {
                     teams[i].getStaffs().add(gameDB.staffDB[i * perTeamStaff + j]);
+                    teams[i].updateStaffEffect(gameDB.staffDB[i * perTeamStaff + j], 1);
                 } else {
                     teams[i].getStaffPool().add(gameDB.staffDB[i * perTeamStaff + j]);
                 }

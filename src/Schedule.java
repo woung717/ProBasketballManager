@@ -103,7 +103,9 @@ public class Schedule implements Loggable {
         this.sendMessage("Today, have a game with team " + awayTeam.getName() + " (" + this.gamePlan[this.dayCounter] + " Game)");
         this.sendMessage("Press Enter to start the game");
 
-        (new Scanner(new BufferedReader(new InputStreamReader(System.in)))).next();
+        try {
+            System.in.read();
+        } catch(Exception e) {;}
 
         game.proceedGame();
     }
@@ -168,7 +170,7 @@ public class Schedule implements Loggable {
         c.add(Calendar.DATE, offset);
 
         Date t = c.getTime();
-        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         return transFormat.format(t);
     }
@@ -182,5 +184,9 @@ public class Schedule implements Loggable {
     @Override
     public void sendMessage(String msg) {
         this.logger.addMessage(msg);
+    }
+
+    public void setDayCounter(int dayCounter) {
+        this.dayCounter = dayCounter;
     }
 }
