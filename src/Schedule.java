@@ -52,7 +52,7 @@ public class Schedule implements Loggable {
         // 이벤트 발생 (없을 수도 있음)
         this.eventOccur();
 
-        //if(!this.teams[this.myTeam].isAllPlayerAvailable())
+        // if(!this.teams[this.myTeam].isAllPlayerAvailable()) this.teams[this.myTeam].setAllBenchAvailable();
 
         // + 하루
         this.dayGoes();
@@ -61,23 +61,6 @@ public class Schedule implements Loggable {
         this.payday();
 
         return true;
-    }
-
-    public void askPlayerChange() {
-        List<Player> pool = this.teams[this.myTeam].getPlayersPool();
-
-        for(int i = 0; i < pool.size(); i++) {
-            if(pool.get(i).getCondition().isAvailable()) {
-                this.sendMessage( (i + 1) + ". " + pool.get(i).getPosition() + " / " + pool.get(i).getSkill() + " / " +
-                                        pool.get(i).getSkill());
-            }
-        }
-        /*
-         for(Player player : this.teams[this.myTeam].getPlayersPool()) {
-            player.getName()
-        }
-        this.sendMessage("");
-        */
     }
 
     public boolean isGameOver() {

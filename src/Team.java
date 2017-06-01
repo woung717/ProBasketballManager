@@ -1,3 +1,5 @@
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.LocatorEx;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,11 +39,17 @@ public class Team {
     }
 
     public boolean isAllPlayerAvailable() {
-        for(Player player : this.players) {
+        for(Player player : this.playersPool) {
             if(!player.getCondition().isAvailable()) return false;
         }
 
         return true;
+    }
+
+    public void setAllBenchAvailable() {
+        for(Player player : this.playersPool) {
+            player.getCondition().setAvailable(true);
+        }
     }
 
     public boolean hasAllPosition() {
@@ -66,6 +74,8 @@ public class Team {
         // 선수를 바꿨을때 hasAllPosition 이 성립하는가?
         // this.playerPool의 in 번째 선수를 this.players의 out번째 선수와 교체
 
+        PlayerSnapshot snapshot = this.createPlayerSnapShot();
+
         Player inPlayer = this.playersPool.get(in);
         Player outPlayer = this.players.get(out);
 
@@ -77,11 +87,13 @@ public class Team {
 
         if(!this.hasAllPosition()) {
             // rollback
-            this.players.remove(inPlayer);
+            /*this.players.remove(inPlayer);
             this.players.add(outPlayer);
 
             this.playersPool.add(inPlayer);
-            this.playersPool.remove(outPlayer);
+            this.playersPool.remove(outPlayer);*/
+
+            this.restoreFromSnapshot(snapshot);
 
             return false;
         }
@@ -119,6 +131,19 @@ public class Team {
             staff.getEffectOnPlayer().affectHealthiness(player.getCondition(), sign);
             staff.getEffectOnPlayer().affectPsychological(player.getCondition(), sign);
         }
+    }
+
+    public PlayerSnapshot createPlayerSnapShot() {
+        PlayerSnapshot snapshot = new PlayerSnapshot();
+
+        snapshot.copyPlayers(this.players, this.playersPool);
+
+        return snapshot;
+    }
+
+    public void restoreFromSnapshot(PlayerSnapshot snapshot) {
+        this.players = snapshot.getPlayers();
+        this.playersPool = snapshot.getPlayersPool();
     }
 
     public void payout(long payment) {
