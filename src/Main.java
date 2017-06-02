@@ -1,13 +1,7 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.BigInteger;
-import java.util.Scanner;
-
 public class Main {
     static Schedule schedule;
     static Database gameDB;
-    static Interations console;
+    static Interation console;
 
     static Director director;
     static Team[] teams;
@@ -21,7 +15,7 @@ public class Main {
 
         gameDB = Database.getInstance();
 
-        console = Interations.getInstance(gameDB, teams[teamIndex]);
+        console = Interation.getInstance(gameDB, teams[teamIndex]);
         console.setLogger(logger);
 
         director = console.directorSetting();
@@ -77,8 +71,6 @@ public class Main {
         }
 
     }
-
-
 
     public static void initialize() {
         teams = new Team[gameDB.getTeamDB().length];

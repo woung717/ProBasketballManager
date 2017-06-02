@@ -1,4 +1,3 @@
-import javax.xml.crypto.Data;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -8,21 +7,21 @@ import java.util.Scanner;
  */
 
 // Singleton Pattern
-public class Interations implements Loggable {
-    private static Interations instance;
+public class Interation implements Loggable {
+    private static Interation instance;
 
     private Team team;
     private MessageLogger logger;
     private Database db;
 
-    private Interations(Database db, Team team) {
+    private Interation(Database db, Team team) {
         this.team = team;
         this.db = db;
     }
 
-    public static Interations getInstance(Database db, Team team) {
+    public static Interation getInstance(Database db, Team team) {
         if(instance == null) {
-            instance = new Interations(db, team);
+            instance = new Interation(db, team);
         }
 
         return instance;
