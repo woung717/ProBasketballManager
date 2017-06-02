@@ -169,7 +169,4 @@ public class Schedule implements Loggable {
         this.logger.addMessage(msg);
     }
 
-    public void setDayCounter(int dayCounter) {
-        this.dayCounter = dayCounter;
-    }
 }

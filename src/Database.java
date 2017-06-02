@@ -141,11 +141,4 @@ public class Database {
         return teamDB;
     }
 
-    public String[] getNationDB() {
-        return nationDB;
-    }
-
-    public Player[] getPlayersDB() {
-        return playersDB;
-    }
 }

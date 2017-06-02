@@ -52,10 +52,6 @@ public class Player extends Unit implements Loggable {
         this.condition = condition;
     }
 
-    public int getAge() {
-        return age;
-    }
-
     public String getNationality() {
         return nationality;
     }

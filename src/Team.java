@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
-    private final int MAX_STAFF = 3;
 
     private String name;
     private String city;

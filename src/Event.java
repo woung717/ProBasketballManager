@@ -43,10 +43,6 @@ public class Event implements Loggable {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public double getFinancialBenefit() {
         return financialBenefit;
     }
@@ -57,10 +53,6 @@ public class Event implements Loggable {
 
     public EffectOnPlayer getEffectOnPlayer() {
         return effectOnPlayer;
-    }
-
-    public void setEffectOnPlayer(EffectOnPlayer effectOnPlayer) {
-        this.effectOnPlayer = effectOnPlayer;
     }
 
 
