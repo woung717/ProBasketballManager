@@ -49,20 +49,19 @@ public class Main {
                         break;
                     case 3: {
                         int[] changes = console.showPlayerChange();
-                        if(changes[0] < 5 && changes[1] < 7) teams[teamIndex].changePlayer(changes[1], changes[0]);
+                        teams[teamIndex].changePlayer(changes[1], changes[0]);
 
                         break;
                     }
                     case 4: {
                         int[] changes = console.showStaffChange();
-
-                        if(changes[0] < 3 && changes[1] < 2) teams[teamIndex].changeStaff(changes[1], changes[0]);
+                        teams[teamIndex].changeStaff(changes[1], changes[0]);
 
                         break;
                     }
                     case 5: {
                         int tactic = console.showTactics();
-                        if(tactic < 3) teams[teamIndex].setTactic(gameDB.tacticDB[tactic]);
+                        teams[teamIndex].setTactic(gameDB.tacticDB[tactic % gameDB.tacticDB.length]);
 
                         break;
                     }

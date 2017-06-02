@@ -71,8 +71,10 @@ public class Team {
     }
 
     public boolean changePlayer(int in, int out) {
-        // 선수를 바꿨을때 hasAllPosition 이 성립하는가?
         // this.playerPool의 in 번째 선수를 this.players의 out번째 선수와 교체
+        // 선수를 바꿨을때 hasAllPosition 이 성립하는가?
+
+        if(in >= this.playersPool.size() || out >= this.players.size()) return false;
 
         PlayerSnapshot snapshot = this.createPlayerSnapShot();
 
@@ -102,6 +104,8 @@ public class Team {
     }
 
     public boolean changeStaff(int in, int out) {
+        if(in >= this.staffPool.size() || out >= this.staffs.size()) return false;
+
         Staff inStaff = this.staffPool.get(in);
         Staff outStaff = this.staffs.get(out);
 
