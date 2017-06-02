@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -5,14 +6,52 @@ import java.util.Scanner;
 /**
  * Created by Shin on 2017-06-01.
  */
+
+// Singleton Pattern
 public class Interations implements Loggable {
+    private static Interations instance;
+
     private Team team;
     private MessageLogger logger;
-    private Tactic[] tactics;
+    private Database db;
 
-    public Interations(Team team, Tactic[] tactics) {
+    private Interations(Database db, Team team) {
         this.team = team;
-        this.tactics = tactics;
+        this.db = db;
+    }
+
+    public static Interations getInstance(Database db, Team team) {
+        if(instance == null) {
+            instance = new Interations(db, team);
+        }
+
+        return instance;
+    }
+
+    public Director directorSetting() {
+        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+        System.out.print("Director's name : ");
+        String name = scanner.nextLine();
+
+        System.out.print("Director's age : ");
+        int age = scanner.nextInt();
+
+        System.out.print("Director's nationality (1. USA / 2. Europe / 3. Asia) : ");
+        int nation = scanner.nextInt() % 3;
+
+        return new Director(name, Double.valueOf(((Math.random() * 10) % 7) * 2000).longValue(), age, this.db.nationDB[nation]);
+    }
+
+    public int chooseTeam() {
+        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+
+        for(int i = 0; i < db.teamDB.length; i++) {
+            System.out.print(String.valueOf(i + 1) + ". " + db.teamDB[i][0] + " - " + db.teamDB[i][1] + "(" + db.teamDB[i][2] + ")\n");
+        }
+
+        System.out.print("Select team : ");
+
+        return scanner.nextInt() - 1;
     }
 
     public int printMainMenu() {
@@ -82,7 +121,7 @@ public class Interations implements Loggable {
 
     public int showTactics() {
         int i = 1;
-        for(Tactic tactic : this.tactics) {
+        for(Tactic tactic : this.db.tacticDB) {
             this.sendMessage(i++ + ". " + tactic.getName() + "(" + tactic.getOffence() + ", " + tactic.getDefence() + ")");
         }
         this.sendMessage("Select Tactic : ");
