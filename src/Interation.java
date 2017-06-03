@@ -27,32 +27,6 @@ public class Interation implements Loggable {
         return instance;
     }
 
-    public Director directorSetting() {
-        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
-        System.out.print("Director's name : ");
-        String name = scanner.nextLine();
-
-        System.out.print("Director's age : ");
-        int age = scanner.nextInt();
-
-        System.out.print("Director's nationality (1. USA / 2. Europe / 3. Asia) : ");
-        int nation = scanner.nextInt() % 3;
-
-        return new Director(name, Double.valueOf(((Math.random() * 10) % 7) * 2000).longValue(), age, this.db.nationDB[nation]);
-    }
-
-    public int chooseTeam() {
-        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
-
-        for(int i = 0; i < db.teamDB.length; i++) {
-            System.out.print(String.valueOf(i + 1) + ". " + db.teamDB[i][0] + " - " + db.teamDB[i][1] + "(" + db.teamDB[i][2] + ")\n");
-        }
-
-        System.out.print("Select team : ");
-
-        return scanner.nextInt() - 1;
-    }
-
     public int printMainMenu() {
         this.sendMessage("======================================");
         this.sendMessage("1. Show Team Information");

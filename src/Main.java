@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
 public class Main {
     static Schedule schedule;
     static Database gameDB;
@@ -15,13 +19,13 @@ public class Main {
 
         gameDB = Database.getInstance();
 
+        director = directorSetting();
+        teamIndex = chooseTeam();
+        initialize();
+
+
         console = Interation.getInstance(gameDB, teams[teamIndex]);
         console.setLogger(logger);
-
-        director = console.directorSetting();
-        teamIndex = console.chooseTeam();
-
-        initialize();
 
         schedule = Schedule.getInstance(teams, teamIndex, gameDB.eventDB, gameDB.scheduleDB);
         schedule.setLogger(logger);
@@ -104,5 +108,31 @@ public class Main {
             teams[i].setTactic(gameDB.tacticDB[RandomGenerator.getRangedRandomInt(0, gameDB.tacticDB.length - 1)]);
             teams[i].setCapital(Double.valueOf((Math.random() * 10) % 9 * 1000000).longValue());
         }
+    }
+
+    public static Director directorSetting() {
+        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+        System.out.print("Director's name : ");
+        String name = scanner.nextLine();
+
+        System.out.print("Director's age : ");
+        int age = scanner.nextInt();
+
+        System.out.print("Director's nationality (1. USA / 2. Europe / 3. Asia) : ");
+        int nation = scanner.nextInt() % 3;
+
+        return new Director(name, Double.valueOf(((Math.random() * 10) % 7) * 2000).longValue(), age, gameDB.nationDB[nation]);
+    }
+
+    public static int chooseTeam() {
+        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+
+        for(int i = 0; i < gameDB.teamDB.length; i++) {
+            System.out.print(String.valueOf(i + 1) + ". " + gameDB.teamDB[i][0] + " - " + gameDB.teamDB[i][1] + "(" + gameDB.teamDB[i][2] + ")\n");
+        }
+
+        System.out.print("Select team : ");
+
+        return scanner.nextInt() - 1;
     }
 }
