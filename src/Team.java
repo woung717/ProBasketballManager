@@ -136,15 +136,11 @@ public class Team {
         }
     }
 
-    public PlayerSnapshot createPlayerSnapShot() {
-        PlayerSnapshot snapshot = new PlayerSnapshot();
-
-        snapshot.copyPlayers(this.players, this.playersPool);
-
-        return snapshot;
+    private PlayerSnapshot createPlayerSnapShot() {
+        return new PlayerSnapshot(this.players, this.playersPool);
     }
 
-    public void restoreFromSnapshot(PlayerSnapshot snapshot) {
+    private void restoreFromSnapshot(PlayerSnapshot snapshot) {
         this.players = snapshot.getPlayers();
         this.playersPool = snapshot.getPlayersPool();
     }

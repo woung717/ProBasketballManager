@@ -11,12 +11,10 @@ public class PlayerSnapshot {
     private List<Player> players;
     private List<Player> playersPool;
 
-    PlayerSnapshot() {
+    PlayerSnapshot(List<Player> players, List<Player> playersPool) {
         this.playersPool = new ArrayList<Player>();
         this.players = new ArrayList<Player>();
-    }
 
-    void copyPlayers(List<Player> players, List<Player> playersPool){
         for(Player player : players) {
             this.players.add(player);
         }
